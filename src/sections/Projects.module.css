@@ -1,0 +1,109 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--mantine-spacing-lg);
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  position: relative;
+  border-radius: var(--mantine-radius-lg);
+  padding: 1px;
+  overflow: hidden;
+  background: light-dark(var(--mantine-color-gray-2), rgba(255, 255, 255, 0.09));
+  box-shadow: light-dark(
+    0 1px 2px rgba(15, 15, 30, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.3)
+  );
+  transition: background 250ms ease, box-shadow 250ms ease;
+}
+
+.card:hover {
+  background: linear-gradient(
+    135deg,
+    var(--mantine-color-brand-5),
+    var(--mantine-color-accent-5)
+  );
+  box-shadow: light-dark(
+    0 20px 40px -20px rgba(92, 104, 228, 0.35),
+    0 20px 40px -16px rgba(92, 104, 228, 0.4)
+  );
+}
+
+.cardGlow {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 30% 20%, rgba(92, 104, 228, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+.card:hover .cardGlow {
+  opacity: 1;
+}
+
+.cardContent {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: calc(var(--mantine-radius-lg) - 1px);
+  padding: var(--mantine-spacing-lg);
+  background: light-dark(var(--mantine-color-white), #12131c);
+}
+
+.iconTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: var(--mantine-radius-md);
+  color: white;
+  background: linear-gradient(135deg, var(--mantine-color-brand-5), var(--mantine-color-accent-5));
+  box-shadow: 0 6px 16px -6px rgba(92, 104, 228, 0.55);
+}
+
+.subtitle {
+  color: light-dark(var(--mantine-color-brand-7), var(--mantine-color-brand-3));
+}
+
+.period {
+  white-space: nowrap;
+  padding-top: 4px;
+}
+
+.highlights {
+  padding-left: 2px;
+}
+
+.checkIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border-radius: 50%;
+  color: light-dark(var(--mantine-color-brand-7), var(--mantine-color-brand-2));
+  background: light-dark(rgba(92, 104, 228, 0.1), rgba(92, 104, 228, 0.18));
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 600;
+  color: light-dark(var(--mantine-color-brand-8), var(--mantine-color-brand-1));
+  background: light-dark(rgba(92, 104, 228, 0.08), rgba(92, 104, 228, 0.16));
+  border: 1px solid light-dark(rgba(92, 104, 228, 0.22), rgba(92, 104, 228, 0.3));
+}

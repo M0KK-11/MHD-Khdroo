@@ -1,0 +1,37 @@
+.contactItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1));
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+a.contactItem:hover {
+  color: var(--mantine-color-brand-5);
+}
+
+.form {
+  max-width: 560px;
+  padding: var(--mantine-spacing-xl);
+  border-radius: var(--mantine-radius-lg);
+  background: light-dark(var(--mantine-color-gray-0), rgba(255, 255, 255, 0.03));
+  border: 1px solid light-dark(var(--mantine-color-gray-2), rgba(255, 255, 255, 0.08));
+}
+
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: var(--mantine-radius-lg);
+  color: white;
+  font-weight: 600;
+  font-size: var(--mantine-font-size-sm);
+  background: linear-gradient(120deg, var(--mantine-color-brand-6), var(--mantine-color-accent-6));
+  box-shadow: 0 8px 24px -8px rgba(92, 104, 228, 0.6);
+  cursor: pointer;
+}

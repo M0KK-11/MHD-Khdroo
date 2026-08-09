@@ -1,0 +1,63 @@
+.wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+  }
+}
+
+[data-mantine-color-scheme='light'] .blob {
+  opacity: 0.28;
+}
+
+.blobOne {
+  width: 480px;
+  height: 480px;
+  top: -160px;
+  left: -120px;
+  background: radial-gradient(circle, var(--mantine-color-brand-6) 0%, transparent 70%);
+}
+
+.blobTwo {
+  width: 520px;
+  height: 520px;
+  top: 40px;
+  right: -180px;
+  background: radial-gradient(circle, var(--mantine-color-accent-6) 0%, transparent 70%);
+}
+
+.blobThree {
+  width: 400px;
+  height: 400px;
+  bottom: -200px;
+  left: 30%;
+  background: radial-gradient(circle, var(--mantine-color-brand-4) 0%, transparent 70%);
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      light-dark(rgba(0, 0, 0, 0.035), rgba(255, 255, 255, 0.045)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      light-dark(rgba(0, 0, 0, 0.035), rgba(255, 255, 255, 0.045)) 1px,
+      transparent 1px
+    );
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+}
