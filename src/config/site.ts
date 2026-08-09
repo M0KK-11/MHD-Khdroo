@@ -6,10 +6,11 @@ export const siteConfig = {
   email: 'mkk11business@gmail.com',
   phone: '+963 981310044',
   location: 'Mazzeh, Damascus, Syria',
-  resumeUrl: '/Mhd_Khair_Khdroo_CV_2026-08.pdf',
+  resumeUrl: `${import.meta.env.BASE_URL}Mhd_Khair_Khdroo_CV_2026-08.pdf`,
   socials: {
     github: 'https://github.com/',
-    linkedin: 'https://linkedin.com/',
+    linkedin:
+      'https://www.linkedin.com/in/mhd-khair-khdroo-b935923aa?utm_source=share_via&utm_content=profile&utm_medium=member_android',
     twitter: 'https://twitter.com/',
   },
 };
