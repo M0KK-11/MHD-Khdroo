@@ -8,10 +8,10 @@ export const siteConfig = {
   location: 'Mazzeh, Damascus, Syria',
   resumeUrl: `${import.meta.env.BASE_URL}Mhd_Khair_Khdroo_CV_2026-08.pdf`,
   socials: {
-    github: 'https://github.com/',
+    github: 'https://github.com/M0KK-11',
     linkedin:
       'https://www.linkedin.com/in/mhd-khair-khdroo-b935923aa?utm_source=share_via&utm_content=profile&utm_medium=member_android',
-    twitter: 'https://twitter.com/',
+    twitter: 'https://x.com/MKK1149446/',
   },
 };
 
