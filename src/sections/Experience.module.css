@@ -39,7 +39,7 @@
   border-radius: 50%;
   color: white;
   background: linear-gradient(135deg, var(--mantine-color-brand-5), var(--mantine-color-accent-5));
-  box-shadow: 0 0 0 4px light-dark(var(--mantine-color-white), #0a0b12);
+  box-shadow: 0 0 0 4px light-dark(var(--mantine-color-white), #0a1330);
 }
 
 .itemBody {

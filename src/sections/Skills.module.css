@@ -16,9 +16,17 @@
   padding: 20px 12px;
   border-radius: var(--mantine-radius-lg);
   text-align: center;
-  background: light-dark(var(--mantine-color-white), rgba(255, 255, 255, 0.03));
-  border: 1px solid light-dark(var(--mantine-color-gray-2), rgba(255, 255, 255, 0.08));
-  box-shadow: light-dark(0 1px 2px rgba(15, 15, 30, 0.04), 0 1px 2px rgba(0, 0, 0, 0.3));
+  background: light-dark(rgba(255, 255, 255, 0.78), rgba(10, 19, 48, 0.6));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid light-dark(var(--mantine-color-gray-2), rgba(110, 158, 238, 0.12));
+  box-shadow: light-dark(0 1px 2px rgba(15, 15, 30, 0.04), 0 4px 16px rgba(0, 0, 0, 0.4));
+  transition: transform 200ms ease, border-color 200ms ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(42, 112, 228, 0.4);
+  }
 }
 
 .coreIcon {
@@ -30,7 +38,7 @@
   border-radius: var(--mantine-radius-md);
   color: white;
   background: linear-gradient(135deg, var(--mantine-color-brand-5), var(--mantine-color-accent-5));
-  box-shadow: 0 6px 16px -6px rgba(92, 104, 228, 0.55);
+  box-shadow: 0 6px 16px -4px rgba(42, 112, 228, 0.45);
 }
 
 .tagRow {
@@ -49,12 +57,13 @@
   font-size: var(--mantine-font-size-sm);
   font-weight: 600;
   cursor: default;
+  backdrop-filter: blur(8px);
 }
 
 .tag {
   color: light-dark(var(--mantine-color-brand-8), var(--mantine-color-brand-1));
-  background: light-dark(rgba(92, 104, 228, 0.08), rgba(92, 104, 228, 0.16));
-  border: 1px solid light-dark(rgba(92, 104, 228, 0.22), rgba(92, 104, 228, 0.32));
+  background: light-dark(rgba(42, 112, 228, 0.08), rgba(42, 112, 228, 0.16));
+  border: 1px solid light-dark(rgba(42, 112, 228, 0.22), rgba(110, 158, 238, 0.28));
 }
 
 .tagOutline {

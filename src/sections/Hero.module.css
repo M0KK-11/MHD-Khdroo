@@ -4,7 +4,7 @@
   min-height: calc(100svh - 64px);
   display: flex;
   align-items: center;
-  background: light-dark(var(--mantine-color-white), #0a0b12);
+  background: transparent;
 }
 
 .container {
@@ -56,8 +56,8 @@
   font-weight: 800;
   color: white;
   background: linear-gradient(135deg, var(--mantine-color-brand-5), var(--mantine-color-accent-5));
-  box-shadow: 0 0 0 6px light-dark(rgba(92, 104, 228, 0.08), rgba(92, 104, 228, 0.14)),
-    0 12px 32px -8px rgba(92, 104, 228, 0.55);
+  box-shadow: 0 0 0 6px light-dark(rgba(42, 112, 228, 0.08), rgba(42, 112, 228, 0.14)),
+    0 12px 32px -8px rgba(42, 112, 228, 0.45);
 }
 
 .badge {
@@ -69,11 +69,9 @@
   font-size: var(--mantine-font-size-sm);
   font-weight: 600;
   color: light-dark(var(--mantine-color-brand-8), var(--mantine-color-brand-2));
-  background: light-dark(
-    rgba(92, 104, 228, 0.08),
-    rgba(92, 104, 228, 0.14)
-  );
-  border: 1px solid light-dark(rgba(92, 104, 228, 0.25), rgba(92, 104, 228, 0.35));
+  background: light-dark(rgba(42, 112, 228, 0.08),
+      rgba(42, 112, 228, 0.14));
+  border: 1px solid light-dark(rgba(42, 112, 228, 0.2), rgba(42, 112, 228, 0.35));
   backdrop-filter: blur(8px);
 }
 
@@ -96,12 +94,10 @@
 }
 
 .gradientText {
-  background: linear-gradient(
-    100deg,
-    var(--mantine-color-brand-5) 10%,
-    var(--mantine-color-accent-5) 50%,
-    var(--mantine-color-brand-4) 90%
-  );
+  background: linear-gradient(100deg,
+      var(--mantine-color-brand-5) 10%,
+      var(--mantine-color-accent-5) 50%,
+      var(--mantine-color-brand-4) 90%);
   background-size: 200% auto;
   background-clip: text;
   -webkit-background-clip: text;
@@ -135,7 +131,7 @@
 .primaryButton {
   color: white;
   background: linear-gradient(120deg, var(--mantine-color-brand-6), var(--mantine-color-accent-6));
-  box-shadow: 0 8px 24px -8px rgba(92, 104, 228, 0.6);
+  box-shadow: 0 8px 24px -8px rgba(42, 112, 228, 0.55);
 }
 
 .secondaryButton {

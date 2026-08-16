@@ -12,7 +12,7 @@ section[id] {
 
 body {
   margin: 0;
-  background-color: light-dark(var(--mantine-color-white), #0a0b12);
+  background-color: transparent;
 }
 
 ::selection {
