@@ -1,26 +1,26 @@
-import { HeroSection } from './sections/jack/HeroSection';
-import { MarqueeSection } from './sections/jack/MarqueeSection';
-import { AboutSection } from './sections/jack/AboutSection';
-import { SkillsSection } from './sections/jack/SkillsSection';
-import { ProjectsSection } from './sections/jack/ProjectsSection';
-import { ExperienceSection } from './sections/jack/ExperienceSection';
-import { ContactSection } from './sections/jack/ContactSection';
-import { FooterSection } from './sections/jack/FooterSection';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
+import { Hero } from './sections/Hero';
+import { About } from './sections/About';
+import { Skills } from './sections/Skills';
+import { Projects } from './sections/Projects';
+import { Experience } from './sections/Experience';
+import { Contact } from './sections/Contact';
 
 function App() {
   return (
-    <div className="w-full min-h-screen bg-[#0C0C0C] text-[#D7E2EA] font-kanit antialiased overflow-x-clip">
-      <main className="w-full flex flex-col">
-        <HeroSection />
-        <MarqueeSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <ExperienceSection />
-        <ContactSection />
+    <>
+      <Header />
+      <main>
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Experience />
+        <Contact />
       </main>
-      <FooterSection />
-    </div>
+      <Footer />
+    </>
   );
 }
 
