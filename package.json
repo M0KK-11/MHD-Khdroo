@@ -15,6 +15,7 @@
     "@mantine/core": "^9.5.1",
     "@mantine/hooks": "^9.5.1",
     "@tabler/icons-react": "^3.46.0",
+    "firebase": "^12.18.0",
     "framer-motion": "^13.0.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

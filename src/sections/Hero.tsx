@@ -1,8 +1,8 @@
-import { Container, Group, Text, Title } from '@mantine/core';
+import { Avatar, Container, Group, Text, Title } from '@mantine/core';
 import { motion, type Variants } from 'framer-motion';
 import { IconArrowDown, IconChevronDown, IconDownload, IconMail } from '@tabler/icons-react';
 import { GradientBlobs } from '../components/GradientBlobs';
-import { heroStats, siteConfig } from '../config/site';
+import { usePortfolio } from '../context/PortfolioContext';
 import { EASE_OUT } from '../motion';
 import classes from './Hero.module.css';
 
@@ -18,13 +18,20 @@ const item: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT } },
 };
 
-const initials = siteConfig.name
-  .split(' ')
-  .map((part) => part[0])
-  .join('')
-  .slice(0, 2);
-
 export function Hero() {
+  const { data } = usePortfolio();
+  const siteConfig = data.siteConfig;
+  const heroStats = data.heroStats || [];
+
+  const initials = siteConfig.name
+    ? siteConfig.name
+        .split(' ')
+        .map((part) => part[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
+    : 'MK';
+
   return (
     <section id="top" className={classes.hero}>
       <GradientBlobs />
@@ -46,7 +53,16 @@ export function Hero() {
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             >
-              {initials}
+              {siteConfig.avatarUrl ? (
+                <Avatar
+                  src={siteConfig.avatarUrl}
+                  alt={siteConfig.name}
+                  size={104}
+                  radius="100%"
+                />
+              ) : (
+                initials
+              )}
             </motion.div>
           </motion.div>
 
@@ -114,15 +130,17 @@ export function Hero() {
                   <IconMail size={16} />
                 </motion.span>
               </motion.a>
-              <motion.a
-                href={siteConfig.resumeUrl}
-                download
-                className={classes.ghostButton}
-                whileHover={{ x: 3 }}
-              >
-                Download CV
-                <IconDownload size={16} />
-              </motion.a>
+              {siteConfig.resumeUrl && (
+                <motion.a
+                  href={siteConfig.resumeUrl}
+                  download
+                  className={classes.ghostButton}
+                  whileHover={{ x: 3 }}
+                >
+                  Download CV
+                  <IconDownload size={16} />
+                </motion.a>
+              )}
             </Group>
           </motion.div>
 
