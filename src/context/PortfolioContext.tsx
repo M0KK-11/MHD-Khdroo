@@ -1,13 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { doc, onSnapshot, setDoc } from 'firebase/firestore';
-import { onAuthStateChanged, type User } from 'firebase/auth';
-import { auth, db } from '../firebase';
+import type { User } from '@supabase/supabase-js';
+import { supabase } from '../supabase';
 import { defaultPortfolioContent } from '../config/defaultData';
 import type { ConnectionStatus, PortfolioContent } from '../types/portfolio';
 
 const LOCAL_STORAGE_KEY = 'mhd_khdroo_portfolio_data_cache_v1';
-const FIRESTORE_COLLECTION = 'Khdroo';
-const FIRESTORE_DOC = 'content';
+const SUPABASE_TABLE = 'app_data';
+const DATA_ROW_ID = 'content';
 
 interface PortfolioContextType {
   data: PortfolioContent;
@@ -39,61 +38,111 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
-  // Monitor Auth State
+  // Monitor Auth State via Supabase
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+    supabase.auth.getUser().then(({ data: { user: currentUser } }) => {
       setUser(currentUser);
       setAuthLoading(false);
+    }).catch(() => {
+      setAuthLoading(false);
     });
-    return () => unsubscribeAuth();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      setAuthLoading(false);
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, []);
 
-  // Monitor Firestore Realtime Sync
+  // Fetch initial data from Supabase and subscribe to Realtime changes
   useEffect(() => {
-    const docRef = doc(db, FIRESTORE_COLLECTION, FIRESTORE_DOC);
-    
-    const unsubscribeSnapshot = onSnapshot(
-      docRef,
-      (snapshot) => {
-        if (snapshot.exists()) {
-          const remoteData = snapshot.data() as PortfolioContent;
-          setData(remoteData);
+    const fetchInitialData = async () => {
+      try {
+        const { data: row, error } = await supabase
+          .from(SUPABASE_TABLE)
+          .select('data')
+          .eq('id', DATA_ROW_ID)
+          .maybeSingle();
+
+        if (error) {
+          if (error.code === 'PGRST205' || error.message?.includes('Could not find the table')) {
+            console.warn('⚠️ Supabase Table "public.app_data" is missing. Please run the SQL script in your Supabase SQL Editor.');
+          } else {
+            console.warn('Supabase fetch notice:', error.message);
+          }
+          setStatus('synced');
+          return;
+        }
+
+        if (row && row.data) {
+          setData(row.data as PortfolioContent);
           try {
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(remoteData));
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(row.data));
           } catch (e) {
             console.warn('Failed to cache in localStorage', e);
           }
-          setStatus('synced');
         } else {
-          // Auto-initialize document in Firestore collection Khdroo
-          setDoc(docRef, defaultPortfolioContent, { merge: true })
-            .then(() => {
-              console.log('✅ Auto-created Firestore collection "Khdroo", document "content"!');
-              setStatus('synced');
-            })
-            .catch((err) => {
-              console.warn('Firestore auto-seed notice (requires Firestore write rules):', err);
-              setStatus('synced');
-            });
+          // Auto-seed if table is available and row is empty
+          const { error: seedErr } = await supabase
+            .from(SUPABASE_TABLE)
+            .upsert({ id: DATA_ROW_ID, data: defaultPortfolioContent, updated_at: new Date().toISOString() });
+          if (seedErr) {
+            console.warn('Supabase auto-seed notice:', seedErr.message);
+          }
         }
-      },
-      (error) => {
-        console.warn('Firestore snapshot listener notice:', error);
+      } catch (err) {
+        console.warn('Supabase connection warning:', err);
+      } finally {
         setStatus('synced');
       }
-    );
+    };
 
-    return () => unsubscribeSnapshot();
+    fetchInitialData();
+
+    // Supabase Realtime Subscription
+    let channel: ReturnType<typeof supabase.channel> | null = null;
+    try {
+      channel = supabase
+        .channel('public:app_data')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: SUPABASE_TABLE, filter: `id=eq.${DATA_ROW_ID}` },
+          (payload) => {
+            if (payload.new && (payload.new as any).data) {
+              const remoteData = (payload.new as any).data as PortfolioContent;
+              setData(remoteData);
+              try {
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(remoteData));
+              } catch (e) {
+                console.warn('Failed to cache in localStorage', e);
+              }
+              setStatus('synced');
+            }
+          }
+        )
+        .subscribe();
+    } catch (e) {
+      console.warn('Realtime channel error:', e);
+    }
+
+    return () => {
+      if (channel) {
+        supabase.removeChannel(channel);
+      }
+    };
   }, []);
 
-  // Save updated portfolio data to Firestore + local cache
+  // Save updated portfolio data to Supabase database (app_data table) + local cache
   const saveData = async (newData: PortfolioContent) => {
     const updated: PortfolioContent = {
       ...newData,
       updatedAt: new Date().toISOString(),
     };
     
-    // Update local state immediately for instant responsiveness
+    // Update local state immediately for fast UI response
     setData(updated);
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
@@ -101,17 +150,25 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       console.warn('Failed to write to localStorage:', e);
     }
 
-    // Explicitly push to Firestore document 'Khdroo/content'
-    const docRef = doc(db, FIRESTORE_COLLECTION, FIRESTORE_DOC);
-    try {
-      await setDoc(docRef, updated, { merge: true });
-      console.log('✅ Successfully saved and created Firestore collection "Khdroo", document "content"!');
-      setStatus('synced');
-    } catch (err: any) {
-      console.error('❌ Firestore setDoc error:', err);
-      // Re-throw so user gets clear feedback if Firebase rules block writing
-      throw new Error(err.message || 'Failed to write to Firestore collection Khdroo.');
+    // Push to Supabase app_data table
+    const { error } = await supabase
+      .from(SUPABASE_TABLE)
+      .upsert({
+        id: DATA_ROW_ID,
+        data: updated,
+        updated_at: new Date().toISOString(),
+      });
+
+    if (error) {
+      console.error('❌ Supabase save error:', error);
+      if (error.code === 'PGRST205' || error.message?.includes('Could not find the table')) {
+        throw new Error('جدول Supabase لم يُنشأ بعد! يرجى تنفيذ كود الـ SQL التأسيسي في Supabase SQL Editor داخل لوحة تحكم Supabase.');
+      }
+      throw new Error(error.message || 'Failed to save to Supabase app_data table.');
     }
+
+    console.log('✅ Successfully saved data to Supabase app_data table!');
+    setStatus('synced');
   };
 
   // Reset data to seed default

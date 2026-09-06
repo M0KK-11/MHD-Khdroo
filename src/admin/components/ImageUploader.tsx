@@ -1,11 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Group, Image, Text, Stack } from '@mantine/core';
 import { IconUpload, IconTrash } from '@tabler/icons-react';
+import { supabase } from '../../supabase';
 
 interface ImageUploaderProps {
   label: string;
   value?: string;
-  onChange: (base64Url: string) => void;
+  onChange: (publicUrl: string) => void;
   maxSizeKb?: number;
 }
 
@@ -13,27 +14,57 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   label,
   value,
   onChange,
-  maxSizeKb = 800,
+  maxSizeKb = 5120,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     if (file.size > maxSizeKb * 1024) {
-      alert(`File size exceeds limit (${maxSizeKb} KB). Please choose a smaller image.`);
+      alert(`File size exceeds limit (${Math.round(maxSizeKb / 1024)} MB). Please choose a smaller image.`);
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const result = event.target?.result as string;
-      if (result) {
-        onChange(result);
+    setUploading(true);
+
+    try {
+      const fileExt = file.name.split('.').pop() || 'png';
+      const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      const fileName = `${Date.now()}_${cleanFileName}`;
+      const filePath = `uploads/${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from('app-images')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: true,
+        });
+
+      if (error) {
+        console.error('Supabase image upload error:', error);
+        alert(`Failed to upload image to Supabase: ${error.message}`);
+        return;
       }
-    };
-    reader.readAsDataURL(file);
+
+      const { data: publicUrlData } = supabase.storage
+        .from('app-images')
+        .getPublicUrl(data.path);
+
+      if (publicUrlData?.publicUrl) {
+        onChange(publicUrlData.publicUrl);
+      }
+    } catch (err: any) {
+      console.error('Image upload exception:', err);
+      alert(`Image upload failed: ${err.message || err}`);
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
   };
 
   return (
@@ -78,10 +109,11 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           <Button
             size="xs"
             variant="light"
-            leftSection={<IconUpload size={14} />}
+            loading={uploading}
+            leftSection={!uploading && <IconUpload size={14} />}
             onClick={() => fileInputRef.current?.click()}
           >
-            Upload
+            {uploading ? 'Uploading...' : 'Upload'}
           </Button>
           {value && (
             <Button
@@ -90,6 +122,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
               variant="subtle"
               leftSection={<IconTrash size={14} />}
               onClick={() => onChange('')}
+              disabled={uploading}
             >
               Remove
             </Button>
@@ -99,3 +132,4 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     </Stack>
   );
 };
+

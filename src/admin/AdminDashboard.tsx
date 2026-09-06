@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import {
   Anchor,
@@ -8,7 +9,6 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
-import { signOut } from 'firebase/auth';
 import {
   IconBriefcase,
   IconExternalLink,
@@ -18,7 +18,7 @@ import {
   IconStar,
   IconUserCheck,
 } from '@tabler/icons-react';
-import { auth } from '../firebase';
+import { supabase } from '../supabase';
 import { usePortfolio } from '../context/PortfolioContext';
 import { GradientBlobs } from '../components/GradientBlobs';
 import { ProfileHeroEditor } from './components/ProfileHeroEditor';
@@ -77,13 +77,13 @@ export const AdminDashboard: React.FC = () => {
     {
       id: 'system',
       label: 'System & Data Sync',
-      sublabel: 'Firestore state & JSON tools',
+      sublabel: 'Supabase state & JSON tools',
       icon: IconServer,
     },
   ];
 
-  const handleSignOut = () => {
-    signOut(auth);
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
   };
 
   const activeNavInfo = navItems.find((item) => item.id === activeTab) || navItems[0];
@@ -186,7 +186,7 @@ export const AdminDashboard: React.FC = () => {
                 <span className={classes.pingRing} />
                 <span className={classes.pingDot} />
               </span>
-              Live Synced (`Khdroo/content`)
+              Live Synced (`public.app_data`)
             </div>
           </Group>
         </header>

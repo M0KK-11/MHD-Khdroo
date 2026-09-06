@@ -13,9 +13,8 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { IconAlertCircle, IconLock, IconShieldCheck } from '@tabler/icons-react';
-import { auth } from '../firebase';
+import { supabase } from '../supabase';
 import { GradientBlobs } from '../components/GradientBlobs';
 
 interface AdminLoginProps {
@@ -39,17 +38,20 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess }) => {
     setError('');
 
     try {
-      await signInWithEmailAndPassword(auth, email.trim(), password);
-      if (onSuccess) onSuccess();
-    } catch (err: any) {
-      console.error('Login error:', err);
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-        setError('Invalid email or password credentials.');
-      } else if (err.code === 'auth/too-many-requests') {
-        setError('Too many failed attempts. Please try again in a few minutes.');
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+
+      if (authError) {
+        console.error('Login error:', authError);
+        setError(authError.message || 'Invalid email or password credentials.');
       } else {
-        setError(err.message || 'Failed to authenticate.');
+        if (onSuccess) onSuccess();
       }
+    } catch (err: any) {
+      console.error('Login exception:', err);
+      setError(err.message || 'Failed to authenticate.');
     } finally {
       setLoading(false);
     }

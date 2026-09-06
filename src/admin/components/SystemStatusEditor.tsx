@@ -31,19 +31,19 @@ export const SystemStatusEditor: React.FC = () => {
   const [pushing, setPushing] = useState(false);
   const [resetting, setResetting] = useState(false);
 
-  const handlePushToFirestore = async () => {
+  const handlePushToSupabase = async () => {
     setPushing(true);
     setMessage(null);
     try {
       await saveData(data);
       setMessage({
         type: 'success',
-        text: '✅ Successfully created/pushed collection "Khdroo" and document "content" to Firestore!',
+        text: '✅ Successfully saved data row "content" to Supabase table "public.app_data"!',
       });
     } catch (err: any) {
       setMessage({
         type: 'error',
-        text: `❌ Firebase Error: ${err.message || err}. Ensure your Firebase Firestore Security Rules allow write access!`,
+        text: `❌ Supabase Error: ${err.message || err}. Ensure your Supabase RLS policy allows access!`,
       });
     } finally {
       setPushing(false);
@@ -71,7 +71,7 @@ export const SystemStatusEditor: React.FC = () => {
   };
 
   const handleReset = async () => {
-    if (confirm('Are you sure you want to reset all portfolio data back to default seed state? This will overwrite your current Firestore document.')) {
+    if (confirm('Are you sure you want to reset all portfolio data back to default seed state? This will overwrite your current Supabase database record.')) {
       setResetting(true);
       try {
         await resetToSeed();
@@ -90,10 +90,10 @@ export const SystemStatusEditor: React.FC = () => {
     <Stack gap="lg">
       <div>
         <Title order={3} c="white">
-          System Status & Firestore Data Tools
+          System Status & Supabase Data Tools
         </Title>
         <Text size="sm" c="brand.1">
-          Monitor database node health, initialize Firestore collection Khdroo, or export/import JSON backups.
+          Monitor database health, sync table public.app_data, or export/import JSON backups.
         </Text>
       </div>
 
@@ -103,7 +103,7 @@ export const SystemStatusEditor: React.FC = () => {
         </Alert>
       )}
 
-      {/* Initialize Collection Action Card */}
+      {/* Sync Table Action Card */}
       <Card className={classes.glassCard} style={{ borderLeft: '4px solid #2a70e4' }}>
         <Stack gap="md">
           <Group justify="space-between" align="center">
@@ -111,34 +111,30 @@ export const SystemStatusEditor: React.FC = () => {
               <IconCloudUpload size={24} color="#6c9eee" />
               <div>
                 <Title order={4} c="white">
-                  Push & Initialize Firestore Collection `Khdroo`
+                  Push & Sync Supabase Table `public.app_data`
                 </Title>
                 <Text size="xs" c="brand.1">
-                  Click to write the complete portfolio payload directly to `Khdroo/content`.
+                  Click to write the complete portfolio payload directly to `public.app_data` (id: &quot;content&quot;).
                 </Text>
               </div>
             </Group>
 
             <Button
               leftSection={<IconCloudUpload size={18} />}
-              onClick={handlePushToFirestore}
+              onClick={handlePushToSupabase}
               loading={pushing}
               variant="gradient"
               gradient={{ from: '#2a70e4', to: '#1b65e2', deg: 120 }}
               size="md"
               radius="lg"
             >
-              Push Collection Now
+              Sync Database Now
             </Button>
           </Group>
 
           <Alert color="blue" variant="light" icon={<IconInfoCircle size={18} />}>
             <Text size="xs" style={{ lineHeight: 1.6 }}>
-              <strong>Firebase Console Tip:</strong> In Firestore Database, collections only appear after the first write operation. If clicking &quot;Push Collection Now&quot; shows a rules error, ensure your <strong>Firestore Security Rules</strong> in Firebase Console are set to:
-              <br />
-              <Code color="blue" mt={4} style={{ display: 'inline-block' }}>
-                match /Khdroo/content &#123; allow read, write: if true; &#125;
-              </Code>
+              <strong>Supabase Storage Tip:</strong> Images uploaded via CMS controls are automatically uploaded to Supabase Storage Bucket <Code color="blue">app-images</Code> with public URLs.
             </Text>
           </Alert>
         </Stack>
@@ -151,7 +147,7 @@ export const SystemStatusEditor: React.FC = () => {
             <Group gap="sm">
               <IconServer size={22} color="#6c9eee" />
               <Title order={4} c="brand.2">
-                Firestore Database Target
+                Supabase Database Target
               </Title>
             </Group>
 
@@ -167,13 +163,18 @@ export const SystemStatusEditor: React.FC = () => {
           </Group>
 
           <Group justify="space-between" align="center">
-            <Text size="sm" c="gray.3">Firestore Collection Target:</Text>
-            <Code fw={700} color="blue">Khdroo</Code>
+            <Text size="sm" c="gray.3">Supabase Table Target:</Text>
+            <Code fw={700} color="blue">public.app_data</Code>
           </Group>
 
           <Group justify="space-between" align="center">
-            <Text size="sm" c="gray.3">Document Target:</Text>
+            <Text size="sm" c="gray.3">Record Key (id):</Text>
             <Code fw={700} color="blue">content</Code>
+          </Group>
+
+          <Group justify="space-between" align="center">
+            <Text size="sm" c="gray.3">Storage Bucket:</Text>
+            <Code fw={700} color="blue">app-images</Code>
           </Group>
 
           <Group justify="space-between" align="center">
@@ -238,7 +239,7 @@ export const SystemStatusEditor: React.FC = () => {
             Danger Zone — Reset Database
           </Title>
           <Text size="sm" c="dimmed">
-            Resets all portfolio sections back to default seed data in Firestore (`Khdroo/content`) and local cache.
+            Resets all portfolio sections back to default seed data in Supabase (`public.app_data`) and local cache.
           </Text>
           <Group>
             <Button
