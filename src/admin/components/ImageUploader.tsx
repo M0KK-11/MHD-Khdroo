@@ -31,7 +31,6 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     setUploading(true);
 
     try {
-      const fileExt = file.name.split('.').pop() || 'png';
       const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
       const fileName = `${Date.now()}_${cleanFileName}`;
       const filePath = `uploads/${fileName}`;
