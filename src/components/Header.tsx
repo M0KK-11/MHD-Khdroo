@@ -1,20 +1,26 @@
 import { Anchor, Burger, Container, Drawer, Group, Stack, Text } from '@mantine/core';
 import { useDisclosure, useWindowScroll } from '@mantine/hooks';
 import { IconDownload } from '@tabler/icons-react';
-import { navLinks, siteConfig } from '../config/site';
+import { navLinks } from '../config/site';
+import { usePortfolio } from '../context/PortfolioContext';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
 import classes from './Header.module.css';
 
-const initials = siteConfig.name
-  .split(' ')
-  .map((part) => part[0])
-  .join('')
-  .slice(0, 2);
-
 export function Header() {
+  const { data } = usePortfolio();
+  const siteConfig = data.siteConfig;
   const [opened, { toggle, close }] = useDisclosure(false);
   const [{ y: scrollY }] = useWindowScroll();
   const scrolled = scrollY > 12;
+
+  const initials = siteConfig.name
+    ? siteConfig.name
+        .split(' ')
+        .map((part) => part[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
+    : 'MK';
 
   const links = navLinks.map((link) => (
     <Anchor
@@ -43,16 +49,18 @@ export function Header() {
         </Group>
 
         <Group gap="sm">
-          <Anchor
-            href={siteConfig.resumeUrl}
-            download
-            underline="never"
-            className={classes.resumeButton}
-            visibleFrom="sm"
-          >
-            <IconDownload size={16} stroke={1.75} />
-            Resume
-          </Anchor>
+          {siteConfig.resumeUrl && (
+            <Anchor
+              href={siteConfig.resumeUrl}
+              download
+              underline="never"
+              className={classes.resumeButton}
+              visibleFrom="sm"
+            >
+              <IconDownload size={16} stroke={1.75} />
+              Resume
+            </Anchor>
+          )}
           <Anchor href="#contact" underline="never" className={classes.ctaButton} visibleFrom="sm">
             Hire me
           </Anchor>
@@ -72,15 +80,17 @@ export function Header() {
       >
         <Stack gap="lg">
           {links}
-          <Anchor
-            href={siteConfig.resumeUrl}
-            download
-            underline="never"
-            className={classes.resumeButton}
-          >
-            <IconDownload size={16} stroke={1.75} />
-            Download Resume
-          </Anchor>
+          {siteConfig.resumeUrl && (
+            <Anchor
+              href={siteConfig.resumeUrl}
+              download
+              underline="never"
+              className={classes.resumeButton}
+            >
+              <IconDownload size={16} stroke={1.75} />
+              Download Resume
+            </Anchor>
+          )}
         </Stack>
       </Drawer>
     </header>

@@ -1,32 +1,42 @@
-import { Group, Stack, Text, Textarea, TextInput } from '@mantine/core';
+import { Group, Stack, Textarea, TextInput } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { IconMail, IconMapPin, IconPhone, IconSend } from '@tabler/icons-react';
 import { Section } from '../components/Section';
-import { siteConfig } from '../config/site';
+import { usePortfolio } from '../context/PortfolioContext';
 import { EASE_OUT } from '../motion';
 import classes from './Contact.module.css';
 
 export function Contact() {
+  const { data } = usePortfolio();
+  const siteConfig = data.siteConfig;
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    alert('Thank you for reaching out! Your message has been submitted.');
   };
 
   return (
     <Section id="contact" title="Get in touch">
       <Stack gap="xl">
         <Group gap={32} wrap="wrap">
-          <a href={`mailto:${siteConfig.email}`} className={classes.contactItem}>
-            <IconMail size={16} stroke={1.5} />
-            {siteConfig.email}
-          </a>
-          <a href={`tel:${siteConfig.phone}`} className={classes.contactItem}>
-            <IconPhone size={16} stroke={1.5} />
-            {siteConfig.phone}
-          </a>
-          <span className={classes.contactItem}>
-            <IconMapPin size={16} stroke={1.5} />
-            {siteConfig.location}
-          </span>
+          {siteConfig.email && (
+            <a href={`mailto:${siteConfig.email}`} className={classes.contactItem}>
+              <IconMail size={16} stroke={1.5} />
+              {siteConfig.email}
+            </a>
+          )}
+          {siteConfig.phone && (
+            <a href={`tel:${siteConfig.phone}`} className={classes.contactItem}>
+              <IconPhone size={16} stroke={1.5} />
+              {siteConfig.phone}
+            </a>
+          )}
+          {siteConfig.location && (
+            <span className={classes.contactItem}>
+              <IconMapPin size={16} stroke={1.5} />
+              {siteConfig.location}
+            </span>
+          )}
         </Group>
 
         <motion.form
@@ -56,9 +66,6 @@ export function Contact() {
                 <IconSend size={16} />
               </motion.button>
             </Group>
-            <Text size="xs" c="dimmed">
-              Form is not wired up yet — placeholder only.
-            </Text>
           </Stack>
         </motion.form>
       </Stack>

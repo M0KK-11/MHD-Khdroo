@@ -2,6 +2,14 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root,
+.main-layout {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -18,4 +26,71 @@ body {
 ::selection {
   background: var(--mantine-color-brand-5);
   color: white;
+}
+
+/* ==========================================================================
+   Ultra-Premium CMS Input Styles Overrides
+   ========================================================================== */
+.mantine-InputWrapper-label {
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: #e7f1ff !important;
+  margin-bottom: 6px !important;
+  letter-spacing: -0.01em;
+}
+
+.mantine-InputWrapper-description {
+  font-size: 11px !important;
+  color: #9fc0f5 !important;
+  margin-bottom: 6px !important;
+}
+
+.mantine-TextInput-input,
+.mantine-Textarea-input,
+.mantine-Select-input,
+.mantine-PasswordInput-input,
+.mantine-Input-input {
+  background-color: rgba(10, 19, 48, 0.75) !important;
+  border: 1px solid rgba(42, 112, 228, 0.28) !important;
+  border-radius: 12px !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  transition: all 0.2s ease-in-out !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.mantine-TextInput-input:focus,
+.mantine-Textarea-input:focus,
+.mantine-Select-input:focus,
+.mantine-PasswordInput-input:focus,
+.mantine-Input-input:focus,
+.mantine-Input-input[data-focus] {
+  border-color: #2a70e4 !important;
+  box-shadow: 0 0 0 3px rgba(42, 112, 228, 0.25), 0 4px 16px rgba(42, 112, 228, 0.2) !important;
+  background-color: rgba(17, 30, 66, 0.85) !important;
+}
+
+.mantine-TextInput-input::placeholder,
+.mantine-Textarea-input::placeholder,
+.mantine-Select-input::placeholder,
+.mantine-PasswordInput-input::placeholder {
+  color: #556a99 !important;
+}
+
+.mantine-Input-section {
+  color: #6c9eee !important;
+}
+
+.mantine-Select-option {
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.mantine-Select-dropdown {
+  background-color: #0a1330 !important;
+  border: 1px solid rgba(42, 112, 228, 0.3) !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
 }
