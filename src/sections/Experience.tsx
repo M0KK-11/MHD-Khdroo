@@ -1,4 +1,4 @@
-import { Group, Stack, Text, Title, Badge } from '@mantine/core';
+import { Group, Stack, Text, Title } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { IconBriefcase, IconSchool, IconCheck } from '@tabler/icons-react';
 import { Section } from '../components/Section';

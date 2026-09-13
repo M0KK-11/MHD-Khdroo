@@ -1,6 +1,6 @@
-import { Group, Stack, Text, Title, Box } from '@mantine/core';
+import { Stack, Text, Title } from '@mantine/core';
 import { motion } from 'framer-motion';
-import { IconCpu, IconDeviceMobile, IconRocket, IconCheck } from '@tabler/icons-react';
+import { IconCpu, IconDeviceMobile, IconRocket } from '@tabler/icons-react';
 import { Section } from '../components/Section';
 import { usePortfolio } from '../context/PortfolioContext';
 import { EASE_OUT } from '../motion';

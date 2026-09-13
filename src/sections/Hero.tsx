@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Avatar, Container, Group, Text, Title, Badge, Box } from '@mantine/core';
+import { useState } from 'react';
+import { Avatar, Container, Group, Text, Title } from '@mantine/core';
 import { motion, type Variants } from 'framer-motion';
 import {
   IconArrowDown,

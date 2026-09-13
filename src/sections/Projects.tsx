@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Anchor, Group, Image, Stack, Text, Title, TextInput, Badge, Box } from '@mantine/core';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -12,7 +12,6 @@ import {
   IconPhoto,
   IconArrowRight,
   IconSearch,
-  IconFilter,
 } from '@tabler/icons-react';
 import { Section } from '../components/Section';
 import { ProjectDetailsModal } from '../components/ProjectDetailsModal';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Group, Stack, Textarea, TextInput, Text, Title, Badge, Notification } from '@mantine/core';
 import { motion } from 'framer-motion';
-import { IconMail, IconMapPin, IconPhone, IconSend, IconCopy, IconCheck, IconBrandWhatsapp } from '@tabler/icons-react';
+import { IconMail, IconMapPin, IconSend, IconCheck, IconBrandWhatsapp } from '@tabler/icons-react';
 import { Section } from '../components/Section';
 import { usePortfolio } from '../context/PortfolioContext';
 import { EASE_OUT } from '../motion';

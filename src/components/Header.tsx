@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Anchor, Burger, Container, Drawer, Group, Stack, Text, Tooltip, Badge } from '@mantine/core';
 import { useDisclosure, useWindowScroll } from '@mantine/hooks';
 import { IconDownload, IconCopy, IconCheck } from '@tabler/icons-react';

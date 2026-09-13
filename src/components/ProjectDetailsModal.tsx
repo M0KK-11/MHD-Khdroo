@@ -256,7 +256,7 @@ export const ProjectDetailsModal: React.FC<ProjectDetailsModalProps> = ({
         )}
 
         {/* Modal Main Content Container */}
-        <ScrollArea.Autosize maxHeight="calc(85vh - 380px)" p="xl">
+        <ScrollArea.Autosize mah="calc(85vh - 380px)" p="xl">
           <Stack gap="lg">
             {/* Header Meta: Logo/Icon + Title + Subtitle + Period */}
             <Group justify="space-between" align="flex-start" wrap="nowrap">

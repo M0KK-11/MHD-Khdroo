@@ -7,7 +7,6 @@ import {
   Card,
   Grid,
   Group,
-  Image,
   Notification,
   Select,
   Stack,

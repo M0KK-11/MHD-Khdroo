@@ -1,5 +1,4 @@
-import React from 'react';
-import { Group, Stack, Text, Title, Badge, Box } from '@mantine/core';
+import { Group, Stack, Text, Title, Badge } from '@mantine/core';
 import { motion } from 'framer-motion';
 import {
   IconApi,
@@ -84,7 +83,9 @@ export function Skills() {
                 const Icon = knownIcons[skill] || IconCode;
                 return (
                   <div key={skill} className={classes.skillPill}>
-                    <Icon size={16} stroke={2} style={{ color: '#6c9eee' }} />
+                    <span style={{ color: '#6c9eee', display: 'inline-flex' }}>
+                      <Icon size={16} stroke={2} />
+                    </span>
                     <span>{skill}</span>
                   </div>
                 );
@@ -115,7 +116,9 @@ export function Skills() {
                 const Icon = knownIcons[skill] || IconServer2;
                 return (
                   <div key={skill} className={classes.skillPill}>
-                    <Icon size={16} stroke={2} style={{ color: '#6c9eee' }} />
+                    <span style={{ color: '#6c9eee', display: 'inline-flex' }}>
+                      <Icon size={16} stroke={2} />
+                    </span>
                     <span>{skill}</span>
                   </div>
                 );
@@ -146,7 +149,9 @@ export function Skills() {
                 const Icon = knownIcons[skill] || IconTools;
                 return (
                   <div key={skill} className={classes.skillPill}>
-                    <Icon size={16} stroke={2} style={{ color: '#6c9eee' }} />
+                    <span style={{ color: '#6c9eee', display: 'inline-flex' }}>
+                      <Icon size={16} stroke={2} />
+                    </span>
                     <span>{skill}</span>
                   </div>
                 );
