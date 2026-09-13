@@ -49,6 +49,8 @@ export interface ProjectItem {
   liveUrl?: string;
   githubUrl?: string;
   imageBase64?: string;
+  imagesBase64?: string[];
+  logoUrl?: string;
 }
 
 export interface SkillsData {

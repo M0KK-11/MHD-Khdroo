@@ -37,6 +37,7 @@ import {
 } from '@tabler/icons-react';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { ImageUploader } from './ImageUploader';
+import { MultiImageUploader } from './MultiImageUploader';
 import type { ProjectItem } from '../../types/portfolio';
 import classes from '../AdminDashboard.module.css';
 
@@ -46,10 +47,16 @@ export const ProjectsEditor: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
 
+  const handleProjectFieldsChange = (index: number, fields: Partial<ProjectItem>) => {
+    setProjects((prevProjects) => {
+      const updated = [...prevProjects];
+      updated[index] = { ...updated[index], ...fields };
+      return updated;
+    });
+  };
+
   const handleProjectChange = (index: number, field: keyof ProjectItem, value: any) => {
-    const updated = [...projects];
-    updated[index] = { ...updated[index], [field]: value };
-    setProjects(updated);
+    handleProjectFieldsChange(index, { [field]: value });
   };
 
   const handleAddProject = () => {
@@ -326,29 +333,63 @@ export const ProjectsEditor: React.FC = () => {
               </Grid.Col>
 
               <Grid.Col span={12}>
-                <Group align="flex-start" gap="lg" style={{ paddingTop: 8 }}>
-                  <Box style={{ flex: 1 }}>
-                    <ImageUploader
-                      label="Project Screenshot / Thumbnail (Base64)"
-                      value={project.imageBase64}
-                      onChange={(base64) => handleProjectChange(index, 'imageBase64', base64)}
-                    />
-                  </Box>
+                <Stack gap="md" style={{ paddingTop: 8 }}>
+                  {/* Project Logo Section */}
+                  <Card p="sm" radius="md" style={{ background: 'rgba(10, 20, 50, 0.4)', border: '1px solid rgba(42, 112, 228, 0.2)' }}>
+                    <Group align="center" justify="space-between">
+                      <Box style={{ flex: 1 }}>
+                        <ImageUploader
+                          label="Project Logo (Replaces default icon tile)"
+                          value={project.logoUrl}
+                          onChange={(url) => handleProjectChange(index, 'logoUrl', url)}
+                        />
+                      </Box>
+                      {project.logoUrl && (
+                        <Box style={{ textAlign: 'center', paddingRight: 12 }}>
+                          <Text size="xs" c="brand.2" fw={600} mb={4}>Logo Preview</Text>
+                          <Box
+                            style={{
+                              width: 52,
+                              height: 52,
+                              borderRadius: 12,
+                              padding: 4,
+                              background: 'rgba(255,255,255,0.06)',
+                              border: '1px solid rgba(42, 112, 228, 0.35)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              overflow: 'hidden',
+                            }}
+                          >
+                            <img
+                              src={project.logoUrl}
+                              alt="Logo"
+                              style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', display: 'block' }}
+                            />
+                          </Box>
+                        </Box>
+                      )}
+                    </Group>
+                  </Card>
 
-                  {project.imageBase64 && (
-                    <Box style={{ textAlign: 'center' }}>
-                      <Text size="xs" c="brand.2" fw={600} mb={4}>Live Thumbnail</Text>
-                      <Image
-                        src={project.imageBase64}
-                        alt="Preview"
-                        h={90}
-                        w={150}
-                        radius="md"
-                        style={{ objectFit: 'cover', border: '1px solid rgba(42, 112, 228, 0.3)' }}
-                      />
-                    </Box>
-                  )}
-                </Group>
+                  {/* Multi-Image Screenshots Gallery Section */}
+                  <Card p="md" radius="md" style={{ background: 'rgba(10, 20, 50, 0.4)', border: '1px solid rgba(42, 112, 228, 0.2)' }}>
+                    <MultiImageUploader
+                      label="Project Gallery Screenshots"
+                      values={
+                        project.imagesBase64 && project.imagesBase64.length > 0
+                          ? project.imagesBase64
+                          : (project.imageBase64 ? [project.imageBase64] : [])
+                      }
+                      onChange={(updatedList) => {
+                        handleProjectFieldsChange(index, {
+                          imagesBase64: updatedList,
+                          imageBase64: updatedList[0] || '',
+                        });
+                      }}
+                    />
+                  </Card>
+                </Stack>
               </Grid.Col>
             </Grid>
           </Stack>

@@ -139,10 +139,19 @@ export const defaultPortfolioContent: PortfolioContent = {
   recommendations: [
     {
       id: 'rec-1',
-      author: 'Ultrawares Lead',
+      author: 'Ahmad Al-Mansoor',
       role: 'Engineering Manager',
       company: 'Ultrawares',
-      text: 'Mhd is an exceptionally gifted Flutter engineer who delivers high-quality production code with speed and diligence.',
+      text: 'Mhd is an exceptionally gifted Flutter engineer who delivers high-quality production code with speed and diligence. His mastery of Clean Architecture and BLoC state management elevated our entire mobile development process.',
+      rating: 5,
+      hidden: false,
+    },
+    {
+      id: 'rec-2',
+      author: 'Samer Haddad',
+      role: 'Product Owner',
+      company: 'Mashena Logistics',
+      text: 'Working with Mhd on the Mashena driver app was a fantastic experience. He integrated real-time Socket.io updates flawlessly and delivered a pixel-perfect 60 FPS UI that our driver fleet loves.',
       rating: 5,
       hidden: false,
     },

@@ -12,7 +12,7 @@ interface SectionProps {
 export function Section({ id, title, subtitle, children }: PropsWithChildren<SectionProps>) {
   return (
     <section id={id} className={classes.section}>
-      <Container size="lg" py={100}>
+      <Container size="xl" py={100}>
         <Stack gap="xl">
           <Reveal>
             <Stack gap={8} maw={640}>

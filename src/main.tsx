@@ -18,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
     <MantineProvider
       theme={theme}
       defaultColorScheme="dark"
+      forceColorScheme="dark"
       colorSchemeManager={colorSchemeManager}
     >
       <App />

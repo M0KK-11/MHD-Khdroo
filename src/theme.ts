@@ -41,6 +41,22 @@ export const theme = createTheme({
   },
   defaultRadius: 'lg',
   cursorType: 'pointer',
+  components: {
+    Container: {
+      defaultProps: {
+        size: 'xl',
+      },
+      vars: () => ({
+        root: {
+          '--container-size-xs': '540px',
+          '--container-size-sm': '720px',
+          '--container-size-md': '960px',
+          '--container-size-lg': '1380px',
+          '--container-size-xl': '1540px',
+        },
+      }),
+    },
+  },
   other: {
     gradientFrom: '#2a70e4',
     gradientTo: '#0a1330',

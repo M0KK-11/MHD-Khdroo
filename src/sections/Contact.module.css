@@ -1,46 +1,81 @@
-.contactItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: var(--mantine-font-size-sm);
-  font-weight: 500;
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1));
-  text-decoration: none;
-  transition: color 150ms ease;
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
 }
 
-a.contactItem:hover {
-  color: var(--mantine-color-brand-5);
+@media (max-width: 900px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contactCard {
+  border-radius: 16px;
+  padding: 20px;
+  background: rgba(10, 19, 48, 0.7);
+  border: 1px solid rgba(42, 112, 228, 0.25);
+  backdrop-filter: blur(14px);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 250ms ease;
+  cursor: pointer;
+}
+
+.contactCard:hover {
+  border-color: rgba(42, 112, 228, 0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px -8px rgba(42, 112, 228, 0.35);
+}
+
+.contactIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: linear-gradient(135deg, #2a70e4, #0d53c9);
+  box-shadow: 0 4px 14px rgba(42, 112, 228, 0.4);
+  flex-shrink: 0;
+}
+
+.contactTitle {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.contactValue {
+  color: #9fc0f5;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .form {
-  max-width: 560px;
-  padding: var(--mantine-spacing-xl);
-  border-radius: var(--mantine-radius-lg);
-  background: light-dark(rgba(255, 255, 255, 0.8), rgba(10, 19, 48, 0.65));
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid light-dark(var(--mantine-color-gray-2), rgba(110, 158, 238, 0.12));
-  box-shadow: light-dark(0 1px 2px rgba(15, 15, 30, 0.04), 0 8px 24px -8px rgba(0, 0, 0, 0.5));
+  border-radius: 20px;
+  padding: 32px;
+  background: rgba(10, 19, 48, 0.75);
+  border: 1px solid rgba(42, 112, 228, 0.25);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.6);
 }
 
 .submitButton {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 22px;
-  border: none;
-  border-radius: var(--mantine-radius-lg);
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 12px;
   color: white;
-  font-weight: 600;
-  font-size: var(--mantine-font-size-sm);
-  background: linear-gradient(120deg, var(--mantine-color-brand-6), var(--mantine-color-accent-6));
-  box-shadow: 0 8px 24px -8px rgba(42, 112, 228, 0.5);
+  font-weight: 700;
+  font-size: 14px;
+  background: linear-gradient(120deg, #2a70e4, #1b65e2);
+  border: none;
   cursor: pointer;
-  transition: transform 150ms ease, box-shadow 150ms ease;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 12px 28px -6px rgba(42, 112, 228, 0.65);
-  }
+  box-shadow: 0 8px 24px -6px rgba(42, 112, 228, 0.6);
 }

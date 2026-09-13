@@ -42,9 +42,15 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           upsert: true,
         });
 
-      if (error) {
-        console.error('Supabase image upload error:', error);
-        alert(`Failed to upload image to Supabase: ${error.message}`);
+      if (error || !data?.path) {
+        console.warn('Supabase storage upload error, falling back to Base64:', error?.message);
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (typeof reader.result === 'string') {
+            onChange(reader.result);
+          }
+        };
+        reader.readAsDataURL(file);
         return;
       }
 
@@ -56,8 +62,14 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         onChange(publicUrlData.publicUrl);
       }
     } catch (err: any) {
-      console.error('Image upload exception:', err);
-      alert(`Image upload failed: ${err.message || err}`);
+      console.warn('Image upload exception, falling back to Base64:', err);
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          onChange(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
     } finally {
       setUploading(false);
       if (fileInputRef.current) {

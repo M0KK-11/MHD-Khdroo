@@ -17,6 +17,7 @@ import {
 import { IconCheck, IconDeviceFloppy, IconPlus, IconTrash } from '@tabler/icons-react';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { ImageUploader } from './ImageUploader';
+import { FileUploader } from './FileUploader';
 import type { HeroStat, SiteConfig } from '../../types/portfolio';
 import classes from '../AdminDashboard.module.css';
 
@@ -200,10 +201,10 @@ export const ProfileHeroEditor: React.FC = () => {
                   </Grid.Col>
 
                   <Grid.Col span={12}>
-                    <TextInput
-                      label="CV / Resume Document URL"
+                    <FileUploader
+                      label="Upload CV Document (.doc / .docx / .pdf)"
                       value={siteConfig.resumeUrl}
-                      onChange={(e) => setSiteConfig({ ...siteConfig, resumeUrl: e.target.value })}
+                      onChange={(fileUrl) => setSiteConfig({ ...siteConfig, resumeUrl: fileUrl })}
                     />
                   </Grid.Col>
 

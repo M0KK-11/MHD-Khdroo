@@ -1,26 +1,27 @@
 .timeline {
   position: relative;
-  padding-left: 44px;
+  padding-left: 48px;
 }
 
 .line {
   position: absolute;
-  left: 13px;
-  top: 4px;
-  bottom: 4px;
+  left: 17px;
+  top: 6px;
+  bottom: 6px;
   width: 2px;
   transform-origin: top;
   background: linear-gradient(
     180deg,
-    var(--mantine-color-brand-5),
-    var(--mantine-color-accent-5)
+    #2a70e4,
+    #6c9eee,
+    rgba(42, 112, 228, 0.2)
   );
-  border-radius: 1px;
+  border-radius: 2px;
 }
 
 .item {
   position: relative;
-  padding-bottom: 28px;
+  padding-bottom: 32px;
 }
 
 .item:last-child {
@@ -29,19 +30,67 @@
 
 .bullet {
   position: absolute;
-  left: -44px;
-  top: 0;
-  width: 28px;
-  height: 28px;
+  left: -48px;
+  top: 4px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 12px;
   color: white;
-  background: linear-gradient(135deg, var(--mantine-color-brand-5), var(--mantine-color-accent-5));
-  box-shadow: 0 0 0 4px light-dark(var(--mantine-color-white), #0a1330);
+  background: linear-gradient(135deg, #2a70e4, #0d53c9);
+  box-shadow: 0 4px 14px rgba(42, 112, 228, 0.4), 0 0 0 4px #040918;
 }
 
-.itemBody {
-  padding-top: 2px;
+.itemCard {
+  border-radius: 16px;
+  padding: 20px 24px;
+  background: rgba(10, 19, 48, 0.7);
+  border: 1px solid rgba(42, 112, 228, 0.25);
+  backdrop-filter: blur(14px);
+  transition: all 250ms ease;
+}
+
+.itemCard:hover {
+  border-color: rgba(42, 112, 228, 0.5);
+  transform: translateX(4px);
+  box-shadow: 0 10px 28px -10px rgba(42, 112, 228, 0.3);
+}
+
+.roleTitle {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.companyMeta {
+  color: #6c9eee;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.periodBadge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9fc0f5;
+  padding: 3px 10px;
+  background: rgba(42, 112, 228, 0.12);
+  border: 1px solid rgba(42, 112, 228, 0.25);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.checkBullet {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(42, 112, 228, 0.2);
+  border: 1px solid rgba(42, 112, 228, 0.4);
+  color: #4382e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
 }

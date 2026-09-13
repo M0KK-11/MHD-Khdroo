@@ -1,0 +1,71 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bioCard {
+  border-radius: 20px;
+  padding: 24px;
+  background: rgba(10, 19, 48, 0.7);
+  border: 1px solid rgba(42, 112, 228, 0.25);
+  backdrop-filter: blur(16px);
+  margin-bottom: 32px;
+}
+
+.bioText {
+  color: #d1e2fc;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.pillarCard {
+  border-radius: 18px;
+  padding: 24px;
+  background: linear-gradient(
+    145deg,
+    rgba(10, 19, 48, 0.8),
+    rgba(42, 112, 228, 0.08)
+  );
+  border: 1px solid rgba(42, 112, 228, 0.22);
+  backdrop-filter: blur(14px);
+  transition: all 300ms ease;
+}
+
+.pillarCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(42, 112, 228, 0.6);
+  box-shadow: 0 16px 36px -12px rgba(42, 112, 228, 0.3);
+}
+
+.pillarIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2a70e4, #0d53c9);
+  box-shadow: 0 6px 18px rgba(42, 112, 228, 0.4);
+  margin-bottom: 16px;
+}
+
+.pillarTitle {
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.pillarDesc {
+  color: #a3b9e0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}

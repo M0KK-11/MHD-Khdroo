@@ -1,73 +1,85 @@
-.coreRow {
+.categoryGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
 
-  @media (max-width: $mantine-breakpoint-sm) {
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 900px) {
+  .categoryGrid {
+    grid-template-columns: 1fr;
   }
 }
 
-.coreTile {
+.categoryCard {
+  border-radius: 20px;
+  padding: 24px;
+  background: rgba(10, 19, 48, 0.75);
+  border: 1px solid rgba(42, 112, 228, 0.25);
+  backdrop-filter: blur(16px);
+  transition: all 300ms ease;
+}
+
+.categoryCard:hover {
+  border-color: rgba(42, 112, 228, 0.5);
+  box-shadow: 0 12px 30px -10px rgba(42, 112, 228, 0.25);
+}
+
+.categoryHeader {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 20px 12px;
-  border-radius: var(--mantine-radius-lg);
-  text-align: center;
-  background: light-dark(rgba(255, 255, 255, 0.78), rgba(10, 19, 48, 0.6));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid light-dark(var(--mantine-color-gray-2), rgba(110, 158, 238, 0.12));
-  box-shadow: light-dark(0 1px 2px rgba(15, 15, 30, 0.04), 0 4px 16px rgba(0, 0, 0, 0.4));
-  transition: transform 200ms ease, border-color 200ms ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    border-color: rgba(42, 112, 228, 0.4);
-  }
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(42, 112, 228, 0.2);
 }
 
-.coreIcon {
+.categoryIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
-  border-radius: var(--mantine-radius-md);
   color: white;
-  background: linear-gradient(135deg, var(--mantine-color-brand-5), var(--mantine-color-accent-5));
-  box-shadow: 0 6px 16px -4px rgba(42, 112, 228, 0.45);
+  background: linear-gradient(135deg, #2a70e4, #0d53c9);
+  box-shadow: 0 4px 14px rgba(42, 112, 228, 0.4);
 }
 
-.tagRow {
+.skillPills {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-.tag,
-.tagOutline {
+.skillPill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   padding: 8px 16px;
-  border-radius: 999px;
-  font-size: var(--mantine-font-size-sm);
+  border-radius: 12px;
+  font-size: 13.5px;
   font-weight: 600;
-  cursor: default;
-  backdrop-filter: blur(8px);
+  color: #d8e5fc;
+  background: rgba(42, 112, 228, 0.12);
+  border: 1px solid rgba(42, 112, 228, 0.25);
+  transition: all 200ms ease;
 }
 
-.tag {
-  color: light-dark(var(--mantine-color-brand-8), var(--mantine-color-brand-1));
-  background: light-dark(rgba(42, 112, 228, 0.08), rgba(42, 112, 228, 0.16));
-  border: 1px solid light-dark(rgba(42, 112, 228, 0.22), rgba(110, 158, 238, 0.28));
+.skillPill:hover {
+  background: rgba(42, 112, 228, 0.25);
+  border-color: rgba(42, 112, 228, 0.6);
+  color: #ffffff;
+  transform: translateY(-2px);
 }
 
-.tagOutline {
-  color: light-dark(var(--mantine-color-dark-6), var(--mantine-color-gray-2));
-  background: light-dark(var(--mantine-color-gray-0), rgba(255, 255, 255, 0.04));
-  border: 1px solid light-dark(var(--mantine-color-gray-3), rgba(255, 255, 255, 0.12));
+.softTile {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #9fc0f5;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }

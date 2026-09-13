@@ -1,4 +1,5 @@
-import { Group, SimpleGrid, Stack, Text, Title } from '@mantine/core';
+import React from 'react';
+import { Group, Stack, Text, Title, Badge, Box } from '@mantine/core';
 import { motion } from 'framer-motion';
 import {
   IconApi,
@@ -11,6 +12,10 @@ import {
   IconPlugConnected,
   IconServer2,
   IconStack2,
+  IconDeviceMobile,
+  IconCloud,
+  IconTools,
+  IconUsers,
 } from '@tabler/icons-react';
 import { Section } from '../components/Section';
 import { usePortfolio } from '../context/PortfolioContext';
@@ -39,128 +44,159 @@ export function Skills() {
   const softSkills = data.skills?.soft || [];
   const languagesList = data.languages || [];
 
+  // Group technical skills into categories for senior presentation
+  const mobileSkills = technicalSkills.filter((s) =>
+    ['Flutter', 'Dart', 'BLoC / Cubit', 'Riverpod', 'Clean Architecture', 'MVVM Pattern', 'BLoC Architecture (Cubit)'].includes(s)
+  );
+
+  const backendSkills = technicalSkills.filter((s) =>
+    ['Firebase', 'Supabase', 'Socket.io', 'API Integration', 'REST API'].includes(s)
+  );
+
+  const otherTechSkills = technicalSkills.filter(
+    (s) => !mobileSkills.includes(s) && !backendSkills.includes(s)
+  );
+
   return (
-    <Section id="skills" title="Skills & Abilities">
-      <Stack gap={48}>
-        {coreStack.length > 0 && (
-          <Stack gap="md">
-            <Title order={4}>Core Stack</Title>
-            <motion.div
-              className={classes.coreRow}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: '-60px' }}
-              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08 } } }}
-            >
-              {coreStack.map((skill) => {
+    <Section id="skills" title="Skills & Technical Expertise" subtitle="Comprehensive stack, architectural patterns, and engineering capabilities">
+      <Stack gap="xl">
+        <div className={classes.categoryGrid}>
+          {/* Mobile Engineering Category */}
+          <motion.div
+            className={classes.categoryCard}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5, ease: EASE_OUT }}
+          >
+            <div className={classes.categoryHeader}>
+              <div className={classes.categoryIcon}>
+                <IconDeviceMobile size={22} />
+              </div>
+              <div>
+                <Title order={4} c="white">Mobile & Frontend Architecture</Title>
+                <Text size="xs" c="dimmed">Cross-platform development & State Management</Text>
+              </div>
+            </div>
+
+            <div className={classes.skillPills}>
+              {(mobileSkills.length > 0 ? mobileSkills : coreStack).map((skill) => {
                 const Icon = knownIcons[skill] || IconCode;
                 return (
-                  <motion.div
-                    key={skill}
-                    className={classes.coreTile}
-                    variants={{
-                      hidden: { opacity: 0, y: 16, scale: 0.92 },
-                      show: { opacity: 1, y: 0, scale: 1 },
-                    }}
-                    transition={{ duration: 0.5, ease: EASE_OUT }}
-                    whileHover={{ y: -4 }}
-                  >
-                    <div className={classes.coreIcon}>
-                      <Icon size={26} stroke={1.75} />
-                    </div>
-                    <Text fw={700} size="sm">
-                      {skill}
-                    </Text>
-                  </motion.div>
+                  <div key={skill} className={classes.skillPill}>
+                    <Icon size={16} stroke={2} style={{ color: '#6c9eee' }} />
+                    <span>{skill}</span>
+                  </div>
                 );
               })}
-            </motion.div>
-          </Stack>
-        )}
+            </div>
+          </motion.div>
 
-        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={48}>
-          {technicalSkills.length > 0 && (
-            <Stack gap="md">
-              <Title order={4}>Technical Skills</Title>
-              <motion.div
-                className={classes.tagRow}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-60px' }}
-                variants={{
-                  hidden: {},
-                  show: { transition: { staggerChildren: 0.05 } },
-                }}
-              >
-                {technicalSkills.map((skill) => {
-                  const Icon = knownIcons[skill];
-                  return (
-                    <motion.span
-                      key={skill}
-                      className={classes.tag}
-                      variants={{
-                        hidden: { opacity: 0, y: 12, scale: 0.9 },
-                        show: { opacity: 1, y: 0, scale: 1 },
-                      }}
-                      whileHover={{ y: -3, scale: 1.05 }}
-                      transition={{ duration: 0.4, ease: EASE_OUT }}
-                    >
-                      {Icon && <Icon size={14} stroke={2} />}
+          {/* Cloud & Backend Category */}
+          <motion.div
+            className={classes.categoryCard}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5, delay: 0.1, ease: EASE_OUT }}
+          >
+            <div className={classes.categoryHeader}>
+              <div className={classes.categoryIcon}>
+                <IconCloud size={22} />
+              </div>
+              <div>
+                <Title order={4} c="white">Backend & Cloud Services</Title>
+                <Text size="xs" c="dimmed">Realtime databases, APIs, and microservices</Text>
+              </div>
+            </div>
+
+            <div className={classes.skillPills}>
+              {(backendSkills.length > 0 ? backendSkills : ['Supabase', 'Firebase', 'REST API', 'Socket.io']).map((skill) => {
+                const Icon = knownIcons[skill] || IconServer2;
+                return (
+                  <div key={skill} className={classes.skillPill}>
+                    <Icon size={16} stroke={2} style={{ color: '#6c9eee' }} />
+                    <span>{skill}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* Engineering Tools Category */}
+          <motion.div
+            className={classes.categoryCard}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5, delay: 0.2, ease: EASE_OUT }}
+          >
+            <div className={classes.categoryHeader}>
+              <div className={classes.categoryIcon}>
+                <IconTools size={22} />
+              </div>
+              <div>
+                <Title order={4} c="white">Tools & DevOps</Title>
+                <Text size="xs" c="dimmed">Version control, CI/CD, and quality tools</Text>
+              </div>
+            </div>
+
+            <div className={classes.skillPills}>
+              {(otherTechSkills.length > 0 ? otherTechSkills : ['Git', 'GitHub', 'CI/CD Pipelines', 'Figma', 'Unit Testing']).map((skill) => {
+                const Icon = knownIcons[skill] || IconTools;
+                return (
+                  <div key={skill} className={classes.skillPill}>
+                    <Icon size={16} stroke={2} style={{ color: '#6c9eee' }} />
+                    <span>{skill}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* Soft Skills & Languages Category */}
+          <motion.div
+            className={classes.categoryCard}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5, delay: 0.3, ease: EASE_OUT }}
+          >
+            <div className={classes.categoryHeader}>
+              <div className={classes.categoryIcon}>
+                <IconUsers size={22} />
+              </div>
+              <div>
+                <Title order={4} c="white">Leadership & Communication</Title>
+                <Text size="xs" c="dimmed">Teamwork, agile delivery, and languages</Text>
+              </div>
+            </div>
+
+            <Stack gap="sm">
+              {softSkills.length > 0 && (
+                <Group gap={8} wrap="wrap">
+                  {softSkills.map((skill) => (
+                    <span key={skill} className={classes.softTile}>
                       {skill}
-                    </motion.span>
-                  );
-                })}
-              </motion.div>
-            </Stack>
-          )}
+                    </span>
+                  ))}
+                </Group>
+              )}
 
-          {softSkills.length > 0 && (
-            <Stack gap="md">
-              <Title order={4}>Soft Skills</Title>
-              <motion.div
-                className={classes.tagRow}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-60px' }}
-                variants={{
-                  hidden: {},
-                  show: { transition: { staggerChildren: 0.05, delayChildren: 0.1 } },
-                }}
-              >
-                {softSkills.map((skill) => (
-                  <motion.span
-                    key={skill}
-                    className={classes.tagOutline}
-                    variants={{
-                      hidden: { opacity: 0, y: 12, scale: 0.9 },
-                      show: { opacity: 1, y: 0, scale: 1 },
-                    }}
-                    whileHover={{ y: -3, scale: 1.05 }}
-                    transition={{ duration: 0.4, ease: EASE_OUT }}
-                  >
-                    {skill}
-                  </motion.span>
-                ))}
-              </motion.div>
+              {languagesList.length > 0 && (
+                <Group gap="md" mt="xs" pt="xs" style={{ borderTop: '1px solid rgba(42, 112, 228, 0.15)' }}>
+                  {languagesList.map((lang) => (
+                    <Group key={lang.name} gap="xs">
+                      <Badge variant="outline" color="blue" size="sm">
+                        {lang.name}: {lang.level}
+                      </Badge>
+                    </Group>
+                  ))}
+                </Group>
+              )}
             </Stack>
-          )}
-        </SimpleGrid>
-
-        {languagesList.length > 0 && (
-          <Stack gap="sm">
-            <Title order={4}>Languages</Title>
-            <Group gap={40}>
-              {languagesList.map((lang) => (
-                <Stack key={lang.name} gap={0}>
-                  <Text fw={700}>{lang.name}</Text>
-                  <Text size="sm" c="dimmed">
-                    {lang.level}
-                  </Text>
-                </Stack>
-              ))}
-            </Group>
-          </Stack>
-        )}
+          </motion.div>
+        </div>
       </Stack>
     </Section>
   );
