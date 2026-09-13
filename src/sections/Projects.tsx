@@ -5,8 +5,10 @@ import {
   IconCalendarEvent,
   IconCar,
   IconCheck,
+
   IconCode,
   IconExternalLink,
+
   IconSchool,
   IconShoppingBag,
   IconPhoto,
@@ -129,8 +131,8 @@ export function Projects() {
                   project.imagesBase64 && project.imagesBase64.length > 0
                     ? project.imagesBase64
                     : project.imageBase64
-                    ? [project.imageBase64]
-                    : [];
+                      ? [project.imageBase64]
+                      : [];
 
                 const coverImage = images[0];
 
