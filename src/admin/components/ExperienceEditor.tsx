@@ -82,9 +82,13 @@ export const ExperienceEditor: React.FC = () => {
   const handleSave = async () => {
     setSaving(true);
     try {
+      const cleanedExperience = experience.map((exp) => ({
+        ...exp,
+        highlights: (exp.highlights || []).map((h) => h.trim()).filter(Boolean),
+      }));
       await saveData({
         ...data,
-        experience,
+        experience: cleanedExperience,
         education,
       });
       setShowNotification(true);
@@ -200,7 +204,7 @@ export const ExperienceEditor: React.FC = () => {
                         handleExpChange(
                           idx,
                           'highlights',
-                          e.target.value.split('\n').filter((l) => l.trim() !== '')
+                          e.target.value.split('\n')
                         )
                       }
                     />

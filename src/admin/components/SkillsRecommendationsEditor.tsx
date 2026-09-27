@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ActionIcon,
   Badge,
@@ -29,23 +29,61 @@ import {
 } from '@tabler/icons-react';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { ImageUploader } from './ImageUploader';
-import type { LanguageItem, RecommendationItem, SkillsData } from '../../types/portfolio';
+import type { LanguageItem, RecommendationItem } from '../../types/portfolio';
 import classes from '../AdminDashboard.module.css';
 
 export const SkillsRecommendationsEditor: React.FC = () => {
   const { data, saveData } = usePortfolio();
 
-  const [coreStack, setCoreStack] = useState<string[]>(data.coreStack || []);
-  const [skills, setSkills] = useState<SkillsData>(
-    data.skills || { technical: [], soft: [] }
+  const [coreStackInput, setCoreStackInput] = useState<string>(
+    (data.coreStack || []).join(', ')
+  );
+  const [technicalSkillsInput, setTechnicalSkillsInput] = useState<string>(
+    (data.skills?.technical || []).join('\n')
+  );
+  const [softSkillsInput, setSoftSkillsInput] = useState<string>(
+    (data.skills?.soft || []).join('\n')
   );
   const [languages, setLanguages] = useState<LanguageItem[]>(data.languages || []);
   const [recommendations, setRecommendations] = useState<RecommendationItem[]>(
     data.recommendations || []
   );
 
+  useEffect(() => {
+    if (data) {
+      if (data.coreStack) {
+        setCoreStackInput(data.coreStack.join(', '));
+      }
+      if (data.skills) {
+        setTechnicalSkillsInput((data.skills.technical || []).join('\n'));
+        setSoftSkillsInput((data.skills.soft || []).join('\n'));
+      }
+      if (data.languages) {
+        setLanguages(data.languages);
+      }
+      if (data.recommendations) {
+        setRecommendations(data.recommendations);
+      }
+    }
+  }, [data]);
+
   const [saving, setSaving] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+
+  const coreStackBadges = coreStackInput
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  const technicalBadges = technicalSkillsInput
+    .split('\n')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  const softBadges = softSkillsInput
+    .split('\n')
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   // Language handlers
   const handleAddLanguage = () => {
@@ -91,8 +129,11 @@ export const SkillsRecommendationsEditor: React.FC = () => {
     try {
       await saveData({
         ...data,
-        coreStack,
-        skills,
+        coreStack: coreStackBadges,
+        skills: {
+          technical: technicalBadges,
+          soft: softBadges,
+        },
         languages,
         recommendations,
       });
@@ -146,18 +187,14 @@ export const SkillsRecommendationsEditor: React.FC = () => {
             label="Core Stack Items (comma-separated)"
             description="Featured prominently as primary hero & skills tiles"
             leftSection={<IconCode size={16} />}
-            value={coreStack.join(', ')}
-            onChange={(e) =>
-              setCoreStack(
-                e.target.value.split(',').map((s) => s.trim()).filter(Boolean)
-              )
-            }
+            value={coreStackInput}
+            onChange={(e) => setCoreStackInput(e.target.value)}
           />
 
-          {coreStack.length > 0 && (
+          {coreStackBadges.length > 0 && (
             <Group gap="xs" mt={4}>
               <Text size="xs" c="dimmed">Core Stack Preview:</Text>
-              {coreStack.map((tech) => (
+              {coreStackBadges.map((tech) => (
                 <Badge key={tech} size="md" variant="filled" color="brand">
                   {tech}
                 </Badge>
@@ -179,19 +216,12 @@ export const SkillsRecommendationsEditor: React.FC = () => {
                 label="Technical Skills (one skill per line)"
                 placeholder="Flutter&#10;Dart&#10;Riverpod&#10;BLoC Architecture (Cubit)&#10;Socket.io&#10;Firebase"
                 rows={5}
-                value={skills.technical.join('\n')}
-                onChange={(e) =>
-                  setSkills({
-                    ...skills,
-                    technical: e.target.value
-                      .split('\n')
-                      .filter((s) => s.trim() !== ''),
-                  })
-                }
+                value={technicalSkillsInput}
+                onChange={(e) => setTechnicalSkillsInput(e.target.value)}
               />
-              {skills.technical.length > 0 && (
+              {technicalBadges.length > 0 && (
                 <Group gap={6} mt="xs">
-                  {skills.technical.map((sk) => (
+                  {technicalBadges.map((sk) => (
                     <Badge key={sk} size="sm" variant="outline" color="brand">
                       {sk}
                     </Badge>
@@ -205,19 +235,12 @@ export const SkillsRecommendationsEditor: React.FC = () => {
                 label="Soft Skills (one skill per line)"
                 placeholder="Problem-solving&#10;Teamwork & Collaboration&#10;Effective Communication"
                 rows={4}
-                value={skills.soft.join('\n')}
-                onChange={(e) =>
-                  setSkills({
-                    ...skills,
-                    soft: e.target.value
-                      .split('\n')
-                      .filter((s) => s.trim() !== ''),
-                  })
-                }
+                value={softSkillsInput}
+                onChange={(e) => setSoftSkillsInput(e.target.value)}
               />
-              {skills.soft.length > 0 && (
+              {softBadges.length > 0 && (
                 <Group gap={6} mt="xs">
-                  {skills.soft.map((sk) => (
+                  {softBadges.map((sk) => (
                     <Badge key={sk} size="sm" variant="light" color="gray">
                       {sk}
                     </Badge>

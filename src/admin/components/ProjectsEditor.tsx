@@ -92,9 +92,14 @@ export const ProjectsEditor: React.FC = () => {
   const handleSave = async () => {
     setSaving(true);
     try {
+      const cleanedProjects = projects.map((p) => ({
+        ...p,
+        tags: (p.tags || []).map((t) => t.trim()).filter(Boolean),
+        highlights: (p.highlights || []).map((h) => h.trim()).filter(Boolean),
+      }));
       await saveData({
         ...data,
-        projects: projects,
+        projects: cleanedProjects,
       });
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 4000);
@@ -294,15 +299,15 @@ export const ProjectsEditor: React.FC = () => {
                       handleProjectChange(
                         index,
                         'tags',
-                        e.target.value.split(',').map((t) => t.trim()).filter(Boolean)
+                        e.target.value.split(',').map((t) => t.trim())
                       )
                     }
                   />
                   {/* Live Visual Tag Pills Preview */}
-                  {project.tags && project.tags.length > 0 && (
+                  {project.tags && project.tags.filter(Boolean).length > 0 && (
                     <Group gap="xs" mt={4}>
                       <Text size="xs" c="dimmed">Live Tags Preview:</Text>
-                      {project.tags.map((tag) => (
+                      {project.tags.filter(Boolean).map((tag) => (
                         <Badge key={tag} size="sm" variant="outline" color="brand">
                           {tag}
                         </Badge>
@@ -324,7 +329,7 @@ export const ProjectsEditor: React.FC = () => {
                       handleProjectChange(
                         index,
                         'highlights',
-                        e.target.value.split('\n').filter((line) => line.trim() !== '')
+                        e.target.value.split('\n')
                       )
                     }
                   />
